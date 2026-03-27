@@ -1,0 +1,25 @@
+parameters:
+    locale: 'en'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Kernel.php'
+
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, priority: 10 }
+
+    App\EventListener\CorsListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 250 }
+            - { name: kernel.event_listener, event: kernel.response, priority: 250 }
+
+    App\EventListener\LocaleListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 8 }

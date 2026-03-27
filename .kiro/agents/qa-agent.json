@@ -1,0 +1,30 @@
+{
+  "name": "qa_agent",
+  "description": "QA agent - weryfikacja i testowanie",
+  "mcpServers": {
+    "redmineQAAgent": {
+      "command": "/home/projects/mcp-redmine-docker/run-redmine-mcp-QA.sh",
+      "timeout": 60000
+    }
+  },
+  "tools": [
+    "fs_read",
+    "execute_bash",
+    "@redmineQAAgent"
+  ],
+  "allowedTools": [
+    "fs_read",
+    "execute_bash",
+    "@redmineQAAgent/redmine_search_issues",
+    "@redmineQAAgent/redmine_get_issue",
+    "@redmineQAAgent/redmine_update_issue",
+    "@redmineQAAgent/redmine_get_current_user",
+    "@redmineQAAgent/redmine_transition_issue",
+    "@redmineQAAgent/redmine_assign_issue"
+  ],
+  "resources": [
+    "file://README.md",
+    "file://.kiro/rules/common.md",
+    "file://.kiro/rules/qa-context.md"
+  ]
+}

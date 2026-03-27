@@ -1,0 +1,36 @@
+error:
+  internal_server: 'Wewnętrzny błąd serwera'
+  not_found: 'Zasób nie został znaleziony'
+  unauthorized: 'Brak autoryzacji'
+  forbidden: 'Dostęp zabroniony'
+  bad_request: 'Nieprawidłowe żądanie'
+  user_not_found: 'Użytkownik nie został znaleziony'
+  invalid_locale: 'Nieprawidłowy język'
+
+success:
+  created: 'Zasób utworzony pomyślnie'
+  updated: 'Zasób zaktualizowany pomyślnie'
+  deleted: 'Zasób usunięty pomyślnie'
+
+ui:
+  button:
+    save: 'Zapisz'
+    cancel: 'Anuluj'
+    delete: 'Usuń'
+    edit: 'Edytuj'
+    create: 'Utwórz'
+    submit: 'Wyślij'
+    back: 'Wstecz'
+    login: 'Zaloguj'
+    logout: 'Wyloguj'
+  label:
+    email: 'Email'
+    password: 'Hasło'
+    name: 'Nazwa'
+    roles: 'Role'
+    created_at: 'Utworzono'
+    updated_at: 'Zaktualizowano'
+  message:
+    confirm_delete: 'Czy na pewno chcesz usunąć ten element?'
+    loading: 'Ładowanie...'
+    no_data: 'Brak danych'

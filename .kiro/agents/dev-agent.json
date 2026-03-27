@@ -1,0 +1,33 @@
+{
+  "name": "dev_agent",
+  "description": "Developer agent - implementacja zadań",
+  "mcpServers": {
+    "redmineDeveloperAgent": {
+      "command": "/home/projects/mcp-redmine-docker/run-redmine-mcp-DEV.sh",
+      "timeout": 60000
+    }
+  },
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "@redmineDeveloperAgent"
+  ],
+  "allowedTools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "@redmineDeveloperAgent/redmine_search_issues",
+    "@redmineDeveloperAgent/redmine_get_issue",
+    "@redmineDeveloperAgent/redmine_update_issue",
+    "@redmineDeveloperAgent/redmine_get_current_user",
+    "@redmineDeveloperAgent/redmine_transition_issue",
+    "@redmineDeveloperAgent/redmine_assign_issue"
+  ],
+  "resources": [
+    "file://README.md",
+    "file://MODULES_CONVENTIONS.md",
+    "file://.kiro/rules/common.md",
+    "file://.kiro/rules/dev-context.md"
+  ]
+}

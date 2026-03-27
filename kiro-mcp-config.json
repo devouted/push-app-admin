@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "redmineDeveloperAgent": {
+      "command": "/home/projects/mcp-redmine-docker/run-redmine-mcp-DEV.sh"
+    },
+    "redminePMAgent": {
+      "command": "/home/projects/mcp-redmine-docker/run-redmine-mcp-PM.sh"
+    },
+    "redmineQAAgent": {
+      "command": "/home/projects/mcp-redmine-docker/run-redmine-mcp-QA.sh"
+    }
+  }
+}

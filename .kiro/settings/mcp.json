@@ -1,0 +1,92 @@
+{
+  "name": "q_ide_default",
+  "description": "Default agent configuration",
+  "prompt": "",
+  "mcpServers": {
+    "redmineDeveloperAgent": {
+      "command": "/home/projects/mcp-redmine-docker/run-redmine-mcp-DEV.sh",
+      "timeout": 60000,
+      "disabled": false
+    },
+    "redminePMAgent": {
+      "command": "/home/projects/mcp-redmine-docker/run-redmine-mcp-PM.sh",
+      "disabled": false,
+      "timeout": 60000
+    },
+    "redmineQAAgent": {
+      "command": "/home/projects/mcp-redmine-docker/run-redmine-mcp-QA.sh",
+      "disabled": false,
+      "timeout": 60000
+    }
+  },
+  "tools": [
+    "fs_read",
+    "execute_bash",
+    "fs_write",
+    "report_issue",
+    "use_aws",
+    "@redminePMAgent",
+    "@redmineQAAgent",
+    "@redmineDeveloperAgent"
+  ],
+  "toolAliases": {},
+  "allowedTools": [
+    "fs_read",
+    "report_issue",
+    "use_aws",
+    "execute_bash",
+    "fs_write",
+    "@redminePMAgent/redmine_create_issue",
+    "@redminePMAgent/redmine_update_issue",
+    "@redminePMAgent/redmine_add_relation",
+    "@redminePMAgent/redmine_get_issue",
+    "@redminePMAgent/redmine_list_projects",
+    "@redminePMAgent/redmine_list_trackers",
+    "@redminePMAgent/redmine_list_issue_statuses",
+    "@redminePMAgent/redmine_search_issues",
+    "@redminePMAgent/redmine_get_current_user",
+    "@redminePMAgent/redmine_list_issue_priorities",
+    "@redmineQAAgent/redmine_create_issue",
+    "@redmineQAAgent/redmine_update_issue",
+    "@redmineQAAgent/redmine_add_relation",
+    "@redmineQAAgent/redmine_get_issue",
+    "@redmineQAAgent/redmine_list_projects",
+    "@redmineQAAgent/redmine_list_trackers",
+    "@redmineQAAgent/redmine_list_issue_statuses",
+    "@redmineQAAgent/redmine_search_issues",
+    "@redmineQAAgent/redmine_get_current_user",
+    "@redmineQAAgent/redmine_transition_issue",
+    "@redmineQAAgent/redmine_assign_issue",
+    "@redmineQAAgent/redmine_list_issue_priorities",
+    "@redmineDeveloperAgent/redmine_create_issue",
+    "@redmineDeveloperAgent/redmine_update_issue",
+    "@redmineDeveloperAgent/redmine_add_relation",
+    "@redmineDeveloperAgent/redmine_get_issue",
+    "@redmineDeveloperAgent/redmine_list_projects",
+    "@redmineDeveloperAgent/redmine_list_trackers",
+    "@redmineDeveloperAgent/redmine_list_issue_statuses",
+    "@redmineDeveloperAgent/redmine_search_issues",
+    "@redmineDeveloperAgent/redmine_get_current_user",
+    "@redmineDeveloperAgent/redmine_transition_issue",
+    "@redmineDeveloperAgent/redmine_assign_issue",
+    "@redmineDeveloperAgent/redmine_list_issue_priorities"
+  ],
+  "toolsSettings": {
+    "use_aws": {
+      "preset": "readOnly"
+    },
+    "execute_bash": {
+      "preset": "readOnly"
+    }
+  },
+  "resources": [
+    "file://AmazonQ.md",
+    "file://README.md",
+    "file://.amazonq/rules/**/*.md"
+  ],
+  "hooks": {
+    "agentSpawn": [],
+    "userPromptSubmit": []
+  },
+  "useLegacyMcpJson": false
+}

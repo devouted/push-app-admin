@@ -1,0 +1,6 @@
+auth:
+  login_success: 'Logowanie pomyślne'
+  logout_success: 'Wylogowanie pomyślne'
+  token_expired: 'Token wygasł'
+  token_invalid: 'Nieprawidłowy token'
+  access_denied: 'Dostęp zabroniony'

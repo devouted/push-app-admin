@@ -1,0 +1,19 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+    test: true
+    http_method_override: false
+    handle_all_throwables: true
+    php_errors:
+        log: true
+    router:
+        default_uri: '%env(DEFAULT_URI)%'
+    http_client:
+        default_options:
+            headers:
+                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    translator:
+        enabled: true
+        fallbacks: ['pl', 'en']
+        default_path: '%kernel.project_dir%/translations'

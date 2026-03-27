@@ -1,0 +1,22 @@
+common:
+  required: 'This field is required'
+  invalid: 'This value is not valid'
+  too_short: 'This value is too short'
+  too_long: 'This value is too long'
+  invalid_email: 'This is not a valid email address'
+  invalid_url: 'This is not a valid URL'
+
+user:
+  email_already_exists: 'This email is already registered'
+  invalid_credentials: 'Invalid credentials'
+  email:
+    required: 'Email is required'
+    invalid: 'Invalid email address'
+  password:
+    required: 'Password is required'
+    too_short: 'Password must be at least {{ limit }} characters long'
+    weak: 'Password must contain at least 8 characters including: uppercase letter, lowercase letter, digit and special character (@$!%*?&#)'
+  roles:
+    required: 'Roles are required'
+    invalid: 'Invalid role selected'
+

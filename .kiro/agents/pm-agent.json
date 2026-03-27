@@ -1,0 +1,32 @@
+{
+  "name": "pm_agent",
+  "description": "PM agent - zarządzanie backlogiem",
+  "mcpServers": {
+    "redminePMAgent": {
+      "command": "/home/projects/mcp-redmine-docker/run-redmine-mcp-PM.sh",
+      "timeout": 60000
+    }
+  },
+  "tools": [
+    "fs_read",
+    "@redminePMAgent"
+  ],
+  "allowedTools": [
+    "fs_read",
+    "@redminePMAgent/redmine_search_issues",
+    "@redminePMAgent/redmine_get_issue",
+    "@redminePMAgent/redmine_create_issue",
+    "@redminePMAgent/redmine_update_issue",
+    "@redminePMAgent/redmine_add_relation",
+    "@redminePMAgent/redmine_get_current_user",
+    "@redminePMAgent/redmine_list_projects",
+    "@redminePMAgent/redmine_list_trackers",
+    "@redminePMAgent/redmine_list_issue_statuses",
+    "@redminePMAgent/redmine_list_issue_priorities"
+  ],
+  "resources": [
+    "file://README.md",
+    "file://.kiro/rules/common.md",
+    "file://.kiro/rules/pm-context.md"
+  ]
+}

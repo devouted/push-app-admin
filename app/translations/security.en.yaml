@@ -1,0 +1,6 @@
+auth:
+  login_success: 'Login successful'
+  logout_success: 'Logout successful'
+  token_expired: 'Token has expired'
+  token_invalid: 'Invalid token'
+  access_denied: 'Access denied'

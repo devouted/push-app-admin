@@ -1,0 +1,59 @@
+services:
+  apache:
+    build:
+      context: .
+      dockerfile: config/Dockerfile.apache
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/var/www/html
+      - ./config/apache.conf:/etc/apache2/sites-available/000-default.conf
+    networks:
+      symfony:
+        aliases:
+          - api.localhost
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../config/Dockerfile.frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      symfony:
+        aliases:
+          - app.localhost
+    environment:
+      - VITE_API_URL=http://api.localhost/api
+    depends_on:
+      - apache
+
+  mysql:
+    image: mariadb:11
+    environment:
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - symfony
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - symfony
+
+networks:
+  symfony:
+
+volumes:
+  mysql_data:

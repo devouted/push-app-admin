@@ -1,0 +1,22 @@
+common:
+  required: 'To pole jest wymagane'
+  invalid: 'Ta wartość jest nieprawidłowa'
+  too_short: 'Ta wartość jest za krótka'
+  too_long: 'Ta wartość jest za długa'
+  invalid_email: 'To nie jest prawidłowy adres email'
+  invalid_url: 'To nie jest prawidłowy URL'
+
+user:
+  email_already_exists: 'Ten email jest już zarejestrowany'
+  invalid_credentials: 'Nieprawidłowe dane logowania'
+  email:
+    required: 'Email jest wymagany'
+    invalid: 'Nieprawidłowy adres email'
+  password:
+    required: 'Hasło jest wymagane'
+    too_short: 'Hasło musi mieć co najmniej {{ limit }} znaków'
+    weak: 'Hasło musi zawierać minimum 8 znaków, w tym: wielką literę, małą literę, cyfrę i znak specjalny (@$!%*?&#)'
+  roles:
+    required: 'Role są wymagane'
+    invalid: 'Wybrano nieprawidłową rolę'
+
