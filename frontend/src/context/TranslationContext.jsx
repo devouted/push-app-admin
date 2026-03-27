@@ -10,7 +10,7 @@ export function TranslationProvider({ children }) {
 	const loadTranslations = useCallback(async (newLocale) => {
 		try {
 			const { data } = await api.get(`/dictionaries/translations/${newLocale}`);
-			setTranslations(data.translations ?? data);
+			setTranslations({ ...data.messages, ...data.validators, ...data.security });
 			setLocale(newLocale);
 		} catch {
 			setLocale(newLocale);

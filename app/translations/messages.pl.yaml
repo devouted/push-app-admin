@@ -13,8 +13,14 @@ success:
   deleted: 'Zasób usunięty pomyślnie'
 
 ui:
+  header:
+    title: 'CRM Panel Admina'
+  nav:
+    dashboard: 'Dashboard'
+    users: 'Użytkownicy'
   button:
     save: 'Zapisz'
+    saving: 'Zapisywanie...'
     cancel: 'Anuluj'
     delete: 'Usuń'
     edit: 'Edytuj'
@@ -34,3 +40,34 @@ ui:
     confirm_delete: 'Czy na pewno chcesz usunąć ten element?'
     loading: 'Ładowanie...'
     no_data: 'Brak danych'
+  dashboard:
+    title: 'Dashboard'
+    welcome: 'Witaj w panelu CRM'
+    users: 'Użytkownicy'
+    active_users: 'Aktywnych użytkowników'
+    customers: 'Klienci'
+    active_customers: 'Aktywnych klientów'
+    projects: 'Projekty'
+    in_progress: 'W trakcie realizacji'
+    tasks: 'Zadania'
+    todo: 'Do wykonania'
+  users:
+    title: 'Użytkownicy'
+    add: 'Dodaj użytkownika'
+    new_title: 'Nowy użytkownik'
+    edit_title: 'Edycja użytkownika'
+    new_password: 'Nowe hasło (opcjonalne)'
+    save_roles: 'Zapisz role'
+    roles_updated: 'Role zostały zaktualizowane'
+    deleted: 'Użytkownik został usunięty'
+    delete_title: 'Usuń użytkownika'
+    delete_confirm: 'Czy na pewno chcesz usunąć tego użytkownika?'
+    actions: 'Akcje'
+    error_loading: 'Błąd podczas pobierania użytkowników'
+    error_creating: 'Błąd podczas tworzenia użytkownika'
+    error_updating: 'Błąd podczas aktualizacji użytkownika'
+    error_deleting: 'Błąd podczas usuwania użytkownika'
+    error_updating_roles: 'Błąd podczas aktualizacji ról'
+  validation:
+    invalid_email: 'Nieprawidłowy format email'
+    password_min_length: 'Hasło musi mieć minimum 6 znaków'

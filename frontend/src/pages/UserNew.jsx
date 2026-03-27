@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import { Button, Input, Card } from "../components/ui";
+import { useTranslation } from "../context/TranslationContext";
 
 const AVAILABLE_ROLES = [
 	{ value: "ROLE_USER", label: "User" },
@@ -14,16 +15,17 @@ export default function UserNew() {
 	const [validationErrors, setValidationErrors] = useState({});
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	const validateForm = () => {
 		const errors = {};
 		
 		if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-			errors.email = "Nieprawidłowy format email";
+			errors.email = t('ui.validation.invalid_email');
 		}
 		
 		if (formData.password.length < 6) {
-			errors.password = "Hasło musi mieć minimum 6 znaków";
+			errors.password = t('ui.validation.password_min_length');
 		}
 		
 		setValidationErrors(errors);
@@ -40,7 +42,7 @@ export default function UserNew() {
 			await api.post("/admin/users", formData);
 			navigate("/users");
 		} catch (err) {
-			setError(err.response?.data?.message || "Błąd podczas tworzenia użytkownika");
+			setError(err.response?.data?.message || t('ui.users.error_creating'));
 		} finally {
 			setLoading(false);
 		}
@@ -57,7 +59,7 @@ export default function UserNew() {
 
 	return (
 		<div>
-			<h1 className="text-3xl font-bold mb-6">Nowy użytkownik</h1>
+			<h1 className="text-3xl font-bold mb-6">{t('ui.users.new_title')}</h1>
 
 			{error && (
 				<div className="alert alert-error mb-4">
@@ -69,7 +71,7 @@ export default function UserNew() {
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<Input
 						type="email"
-						label="Email"
+						label={t('ui.label.email')}
 						value={formData.email}
 						onChange={(e) => setFormData({ ...formData, email: e.target.value })}
 						error={validationErrors.email}
@@ -78,7 +80,7 @@ export default function UserNew() {
 
 					<Input
 						type="password"
-						label="Hasło"
+						label={t('ui.label.password')}
 						value={formData.password}
 						onChange={(e) => setFormData({ ...formData, password: e.target.value })}
 						error={validationErrors.password}
@@ -87,7 +89,7 @@ export default function UserNew() {
 
 					<div className="form-control">
 						<label className="label">
-							<span className="label-text">Role</span>
+							<span className="label-text">{t('ui.label.roles')}</span>
 						</label>
 						<div className="space-y-2">
 							{AVAILABLE_ROLES.map(role => (
@@ -106,10 +108,10 @@ export default function UserNew() {
 
 					<div className="flex gap-4">
 						<Button type="submit" variant="primary" disabled={loading}>
-							{loading ? "Zapisywanie..." : "Zapisz"}
+							{loading ? t('ui.button.saving') : t('ui.button.save')}
 						</Button>
 						<Button type="button" variant="ghost" onClick={() => navigate("/users")}>
-							Anuluj
+							{t('ui.button.cancel')}
 						</Button>
 					</div>
 				</form>

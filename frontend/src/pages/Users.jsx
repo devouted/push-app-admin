@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import ConfirmModal from "../components/ConfirmModal";
 import { Button, Card } from "../components/ui";
+import { useTranslation } from "../context/TranslationContext";
 
 export default function Users() {
 	const [users, setUsers] = useState([]);
@@ -11,6 +12,7 @@ export default function Users() {
 	const [success, setSuccess] = useState(null);
 	const [deleteModal, setDeleteModal] = useState({ isOpen: false, userId: null });
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		fetchUsers();
@@ -23,7 +25,7 @@ export default function Users() {
 			setUsers(response.data);
 			setError(null);
 		} catch (err) {
-			setError(err.response?.data?.message || "Błąd podczas pobierania użytkowników");
+			setError(err.response?.data?.message || t('ui.users.error_loading'));
 		} finally {
 			setLoading(false);
 		}
@@ -37,11 +39,11 @@ export default function Users() {
 		try {
 			await api.delete(`/admin/users/${deleteModal.userId}`);
 			setDeleteModal({ isOpen: false, userId: null });
-			setSuccess("Użytkownik został usunięty");
+			setSuccess(t('ui.users.deleted'));
 			setTimeout(() => setSuccess(null), 3000);
 			fetchUsers();
 		} catch (err) {
-			setError(err.response?.data?.message || "Błąd podczas usuwania użytkownika");
+			setError(err.response?.data?.message || t('ui.users.error_deleting'));
 			setDeleteModal({ isOpen: false, userId: null });
 		}
 	};
@@ -57,9 +59,9 @@ export default function Users() {
 	return (
 		<div>
 			<div className="flex justify-between items-center mb-6">
-				<h1 className="text-3xl font-bold">Użytkownicy</h1>
+				<h1 className="text-3xl font-bold">{t('ui.users.title')}</h1>
 				<Button variant="primary" onClick={() => navigate("/users/new")}>
-					Dodaj użytkownika
+					{t('ui.users.add')}
 				</Button>
 			</div>
 
@@ -81,9 +83,9 @@ export default function Users() {
 						<thead>
 							<tr>
 								<th>ID</th>
-								<th>Email</th>
-								<th>Role</th>
-								<th className="text-right">Akcje</th>
+								<th>{t('ui.label.email')}</th>
+								<th>{t('ui.label.roles')}</th>
+								<th className="text-right">{t('ui.users.actions')}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -99,14 +101,14 @@ export default function Users() {
 											onClick={() => navigate(`/users/${user.id}/edit`)}
 											className="mr-2"
 										>
-											Edytuj
+											{t('ui.button.edit')}
 										</Button>
 										<Button
 											variant="error"
 											size="sm"
 											onClick={() => handleDeleteClick(user.id)}
 										>
-											Usuń
+											{t('ui.button.delete')}
 										</Button>
 									</td>
 								</tr>
@@ -120,8 +122,8 @@ export default function Users() {
 				isOpen={deleteModal.isOpen}
 				onClose={() => setDeleteModal({ isOpen: false, userId: null })}
 				onConfirm={handleDeleteConfirm}
-				title="Usuń użytkownika"
-				message="Czy na pewno chcesz usunąć tego użytkownika?"
+				title={t('ui.users.delete_title')}
+				message={t('ui.users.delete_confirm')}
 			/>
 		</div>
 	);

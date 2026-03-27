@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import { Button, Input, Card } from "../components/ui";
+import { useTranslation } from "../context/TranslationContext";
 
 const AVAILABLE_ROLES = [
 	{ value: "ROLE_USER", label: "User" },
@@ -15,6 +16,7 @@ export default function UserEdit() {
 	const [error, setError] = useState(null);
 	const [validationErrors, setValidationErrors] = useState({});
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		fetchUser();
@@ -26,7 +28,7 @@ export default function UserEdit() {
 			setFormData({ email: response.data.email, password: "", roles: response.data.roles });
 			setError(null);
 		} catch (err) {
-			setError(err.response?.data?.message || "Błąd podczas pobierania użytkownika");
+			setError(err.response?.data?.message || t('ui.users.error_loading'));
 		} finally {
 			setLoading(false);
 		}
@@ -36,11 +38,11 @@ export default function UserEdit() {
 		const errors = {};
 		
 		if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-			errors.email = "Nieprawidłowy format email";
+			errors.email = t('ui.validation.invalid_email');
 		}
 		
 		if (formData.password && formData.password.length < 6) {
-			errors.password = "Hasło musi mieć minimum 6 znaków";
+			errors.password = t('ui.validation.password_min_length');
 		}
 		
 		setValidationErrors(errors);
@@ -59,7 +61,7 @@ export default function UserEdit() {
 			await api.put(`/admin/users/${id}`, payload);
 			navigate("/users");
 		} catch (err) {
-			setError(err.response?.data?.message || "Błąd podczas aktualizacji użytkownika");
+			setError(err.response?.data?.message || t('ui.users.error_updating'));
 			setLoading(false);
 		}
 	};
@@ -69,9 +71,9 @@ export default function UserEdit() {
 		try {
 			await api.post(`/admin/users/${id}/roles`, { roles: formData.roles });
 			setError(null);
-			alert("Role zostały zaktualizowane");
+			alert(t('ui.users.roles_updated'));
 		} catch (err) {
-			setError(err.response?.data?.message || "Błąd podczas aktualizacji ról");
+			setError(err.response?.data?.message || t('ui.users.error_updating_roles'));
 		} finally {
 			setLoading(false);
 		}
@@ -96,7 +98,7 @@ export default function UserEdit() {
 
 	return (
 		<div>
-			<h1 className="text-3xl font-bold mb-6">Edycja użytkownika #{id}</h1>
+			<h1 className="text-3xl font-bold mb-6">{t('ui.users.edit_title')} #{id}</h1>
 
 			{error && (
 				<div className="alert alert-error mb-4">
@@ -108,7 +110,7 @@ export default function UserEdit() {
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<Input
 						type="email"
-						label="Email"
+						label={t('ui.label.email')}
 						value={formData.email}
 						onChange={(e) => setFormData({ ...formData, email: e.target.value })}
 						error={validationErrors.email}
@@ -117,7 +119,7 @@ export default function UserEdit() {
 
 					<Input
 						type="password"
-						label="Nowe hasło (opcjonalne)"
+						label={t('ui.users.new_password')}
 						value={formData.password}
 						onChange={(e) => setFormData({ ...formData, password: e.target.value })}
 						error={validationErrors.password}
@@ -125,7 +127,7 @@ export default function UserEdit() {
 
 					<div className="form-control">
 						<label className="label">
-							<span className="label-text">Role</span>
+							<span className="label-text">{t('ui.label.roles')}</span>
 						</label>
 						<div className="space-y-2 mb-3">
 							{AVAILABLE_ROLES.map(role => (
@@ -147,16 +149,16 @@ export default function UserEdit() {
 							onClick={handleRolesSubmit}
 							disabled={loading}
 						>
-							Zapisz role
+							{t('ui.users.save_roles')}
 						</Button>
 					</div>
 
 					<div className="flex gap-4">
 						<Button type="submit" variant="primary" disabled={loading}>
-							{loading ? "Zapisywanie..." : "Zapisz"}
+							{loading ? t('ui.button.saving') : t('ui.button.save')}
 						</Button>
 						<Button type="button" variant="ghost" onClick={() => navigate("/users")}>
-							Anuluj
+							{t('ui.button.cancel')}
 						</Button>
 					</div>
 				</form>

@@ -1,7 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "../../context/TranslationContext";
 
 export default function Nav() {
 	const location = useLocation();
+	const { t } = useTranslation();
 
 	const isActive = (path) => location.pathname === path || location.pathname.startsWith(path);
 
@@ -13,7 +15,7 @@ export default function Nav() {
 						to="/dashboard" 
 						className={`font-medium transition-all ${isActive("/dashboard") ? "bg-blue-600 text-white hover:bg-blue-700" : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"}`}
 					>
-						Dashboard
+						{t('ui.nav.dashboard')}
 					</Link>
 				</li>
 				<li>
@@ -21,7 +23,7 @@ export default function Nav() {
 						to="/users" 
 						className={`font-medium transition-all ${isActive("/users") ? "bg-blue-600 text-white hover:bg-blue-700" : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"}`}
 					>
-						Użytkownicy
+						{t('ui.nav.users')}
 					</Link>
 				</li>
 			</ul>

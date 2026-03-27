@@ -13,8 +13,14 @@ success:
   deleted: 'Resource deleted successfully'
 
 ui:
+  header:
+    title: 'CRM Admin Panel'
+  nav:
+    dashboard: 'Dashboard'
+    users: 'Users'
   button:
     save: 'Save'
+    saving: 'Saving...'
     cancel: 'Cancel'
     delete: 'Delete'
     edit: 'Edit'
@@ -34,3 +40,34 @@ ui:
     confirm_delete: 'Are you sure you want to delete this item?'
     loading: 'Loading...'
     no_data: 'No data available'
+  dashboard:
+    title: 'Dashboard'
+    welcome: 'Welcome to CRM panel'
+    users: 'Users'
+    active_users: 'Active users'
+    customers: 'Customers'
+    active_customers: 'Active customers'
+    projects: 'Projects'
+    in_progress: 'In progress'
+    tasks: 'Tasks'
+    todo: 'To do'
+  users:
+    title: 'Users'
+    add: 'Add user'
+    new_title: 'New user'
+    edit_title: 'Edit user'
+    new_password: 'New password (optional)'
+    save_roles: 'Save roles'
+    roles_updated: 'Roles have been updated'
+    deleted: 'User has been deleted'
+    delete_title: 'Delete user'
+    delete_confirm: 'Are you sure you want to delete this user?'
+    actions: 'Actions'
+    error_loading: 'Error loading users'
+    error_creating: 'Error creating user'
+    error_updating: 'Error updating user'
+    error_deleting: 'Error deleting user'
+    error_updating_roles: 'Error updating roles'
+  validation:
+    invalid_email: 'Invalid email format'
+    password_min_length: 'Password must be at least 6 characters'
