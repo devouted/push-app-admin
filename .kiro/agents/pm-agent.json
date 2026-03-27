@@ -9,10 +9,12 @@
   },
   "tools": [
     "fs_read",
+    "fs_write",
     "@redminePMAgent"
   ],
   "allowedTools": [
     "fs_read",
+    "fs_write",
     "@redminePMAgent/redmine_search_issues",
     "@redminePMAgent/redmine_get_issue",
     "@redminePMAgent/redmine_create_issue",
@@ -27,6 +29,7 @@
   "resources": [
     "file://README.md",
     "file://.kiro/rules/common.md",
-    "file://.kiro/rules/pm-context.md"
+    "file://.kiro/rules/pm-context.md",
+    "file://.kiro/rules/project-setup.md"
   ]
 }

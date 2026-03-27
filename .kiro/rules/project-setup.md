@@ -1,63 +1,45 @@
-# Konfiguracja projektu Symfony API CRM
+# Konfiguracja projektu push-app
+
+## Projekt Redmine
+
+- **Nazwa:** push-app
+- **ID:** 81
+- **Identifier:** push-app
+
+⚠️ Wszystkie operacje w tym katalogu dotyczą WYŁĄCZNIE projektu push-app (id: 81).
 
 ## Dostęp do aplikacji
 
-- **Frontend**: http://localhost (port 80)
+- **Frontend**: http://localhost (port 80, proxy do Vite)
 - **API**: http://api.localhost (port 80, subdomena)
 - **MySQL**: localhost:3306
 - **Redis**: localhost:6379
 
-⚠️ **WAŻNE**: API jest dostępne pod subdomeną `api.localhost`, NIE pod `localhost/api`
+⚠️ API jest dostępne pod subdomeną `api.localhost`, NIE pod `localhost/api`
 
 ## Kontenery Docker
 
-- `symfony-sceleton-apache-1` - Apache + PHP 8.4 (Symfony API)
-- `symfony-sceleton-frontend-1` - Node.js + Vite (React frontend)
-- `symfony-sceleton-mysql-1` - MariaDB 11
-- `symfony-sceleton-redis-1` - Redis Alpine
-
-## Apache VirtualHosts
-
-Konfiguracja w `/config/apache.conf`:
-
-1. **localhost** - proxy do frontendu (Vite dev server na porcie 5173)
-2. **api.localhost** - Symfony API (DocumentRoot: `/var/www/html/public`)
+- `apache` - Apache + PHP 8.4 (Symfony API)
+- `frontend` - Node.js 20 + Vite (React)
+- `mysql` - MariaDB 11
+- `redis` - Redis Alpine
 
 ## Struktura katalogów
 
-- `/app` - kod Symfony
+- `/app` - kod Symfony (backend API)
 - `/app/src` - kod źródłowy PHP
 - `/app/tests` - testy PHPUnit
-- `/app/translations` - pliki tłumaczeń (messages, validators, security)
+- `/app/translations` - pliki tłumaczeń
 - `/app/config/packages` - konfiguracja Symfony
-- `/frontend` - kod React
+- `/frontend` - kod React (frontend)
+- `/config` - Dockerfile'e i konfiguracja Apache
 
 ## Uruchamianie testów
 
-```bash
-# Wszystkie testy
+bash
 docker exec symfony-sceleton-apache-1 php bin/phpunit tests/
 
-# Konkretny test
-docker exec symfony-sceleton-apache-1 php bin/phpunit tests/Controller/AuthControllerTest.php
-```
+## Dane dostępowe
 
-## Dostęp do bazy danych
+- MySQL: symfony / symfony / symfony
 
-- User: symfony
-- Password: symfony
-- Database: symfony
-
-## Przykłady wywołań API
-
-```bash
-# Lista dostępnych języków
-curl http://api.localhost/api/dictionaries/locales
-
-# Tłumaczenia dla języka
-curl http://api.localhost/api/dictionaries/translations/en
-curl http://api.localhost/api/dictionaries/translations/pl
-
-# Health check
-curl http://api.localhost/api/health
-```

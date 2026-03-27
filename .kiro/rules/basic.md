@@ -1,5 +1,7 @@
 # Zasady pracy z Redmine - Indeks
 
+⚠️ **Projekt:** push-app (Redmine ID: 81). Wszystkie operacje dotyczą WYŁĄCZNIE tego projektu.
+
 Zasady zostały podzielone na konteksty pracy. Wybierz odpowiedni plik:
 
 ## 📋 Wspólne zasady
@@ -24,7 +26,7 @@ Zasady zostały podzielone na konteksty pracy. Wybierz odpowiedni plik:
 
 ---
 
-**Jak używać:** 
+**Jak używać:**
 - Wpisz `PM`, `DEV` lub `QA` na początku zapytania (np. "PM: stwórz Story...")
 - Lub użyj w zdaniu (np. "jako DEV weź task z backlogu")
 - Lub użyj odpowiedniego @agenta
