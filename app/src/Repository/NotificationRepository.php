@@ -43,4 +43,29 @@ class NotificationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    /**
+     * @return Notification[]
+     */
+    public function findAllByChannel(Channel $channel, int $page = 1, int $limit = 20): array
+    {
+        return $this->createQueryBuilder('n')
+            ->where('n.channel = :channel')
+            ->setParameter('channel', $channel->getId(), 'uuid')
+            ->orderBy('n.createdAt', 'DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countAllByChannel(Channel $channel): int
+    {
+        return (int) $this->createQueryBuilder('n')
+            ->select('COUNT(n.id)')
+            ->where('n.channel = :channel')
+            ->setParameter('channel', $channel->getId(), 'uuid')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

@@ -7,12 +7,15 @@ use App\Dto\Request\UpdateChannelRequest;
 use App\Dto\Response\ChannelListItemResponse;
 use App\Dto\Response\ChannelListResponse;
 use App\Dto\Response\ChannelResponse;
+use App\Dto\Response\ClientNotificationItemResponse;
+use App\Dto\Response\ClientNotificationListResponse;
 use App\Dto\Response\ErrorResponse;
 use App\Dto\Response\NotificationSentResponse;
 use App\Entity\Channel;
 use App\Entity\Notification;
 use App\Message\SendPushNotification;
 use App\Repository\ChannelRepository;
+use App\Repository\NotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
@@ -29,6 +32,7 @@ class ChannelController extends DefaultController
 {
     public function __construct(
         private readonly ChannelRepository $channelRepository,
+        private readonly NotificationRepository $notificationRepository,
         private readonly EntityManagerInterface $em,
         private readonly MessageBusInterface $bus,
     ) {}
@@ -205,6 +209,34 @@ class ChannelController extends DefaultController
             (string) $notification->getId(),
             0,
         ), 201);
+    }
+
+    #[Route('/{id}/notifications', name: 'client_channels_notifications', methods: ['GET'])]
+    #[OA\Get(
+        path: '/api/client/channels/{id}/notifications',
+        summary: 'List channel notifications',
+        description: 'Returns paginated list of all notifications for a channel owned by the client'
+    )]
+    #[OA\Parameter(name: 'page', in: 'query', schema: new OA\Schema(type: 'integer', default: 1))]
+    #[OA\Parameter(name: 'limit', in: 'query', schema: new OA\Schema(type: 'integer', default: 20))]
+    #[OA\Response(response: 200, description: 'Notifications list', content: new Model(type: ClientNotificationListResponse::class))]
+    #[OA\Response(response: 404, description: 'Channel not found', content: new Model(type: ErrorResponse::class))]
+    #[OA\Tag(name: 'Client Channels')]
+    public function notifications(string $id, Request $request): JsonResponse
+    {
+        $channel = $this->findOwnChannel($id);
+        $page = max(1, $request->query->getInt('page', 1));
+        $limit = min(100, max(1, $request->query->getInt('limit', 20)));
+
+        $notifications = $this->notificationRepository->findAllByChannel($channel, $page, $limit);
+        $total = $this->notificationRepository->countAllByChannel($channel);
+
+        return $this->response(new ClientNotificationListResponse(
+            array_map(fn(Notification $n) => ClientNotificationItemResponse::fromEntity($n), $notifications),
+            $total,
+            $page,
+            $limit,
+        ));
     }
 
     private function findOwnChannel(string $id): Channel

@@ -28,6 +28,7 @@
     "file://README.md",
     "file://MODULES_CONVENTIONS.md",
     "file://.kiro/rules/common.md",
+    "file://.kiro/rules/coding-standards.md",
     "file://.kiro/rules/dev-context.md",
     "file://.kiro/rules/project-setup.md"
   ]

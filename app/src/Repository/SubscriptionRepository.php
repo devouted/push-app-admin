@@ -55,4 +55,15 @@ class SubscriptionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function countActiveByConsumer(Consumer $consumer): int
+    {
+        return (int) $this->createQueryBuilder('s')
+            ->select('COUNT(s.id)')
+            ->where('s.consumer = :consumer')
+            ->andWhere('s.deletedAt IS NULL')
+            ->setParameter('consumer', $consumer->getId(), 'uuid')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

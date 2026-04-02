@@ -41,6 +41,21 @@
 - Dodawanie komentarzy testowych
 - Raportowanie defektów
 - Weryfikacja zgodności z Acceptance Criteria
+- Weryfikacja zgodnosci kodu ze standardami z `coding-standards.md`
+
+## Weryfikacja standardow kodowania
+
+⚠️ Obowiazuja standardy z `coding-standards.md` — QA MUSI je weryfikowac przy kazdym review.
+
+Przy review sprawdzaj:
+- Czy akcje POST/PATCH/PUT uzywaja DTO z #[MapRequestPayload] (nie reczne json_decode)
+- Czy akcje GET z paginacja uzywaja query DTO z #[MapQueryString] (nie reczne $request->query)
+- Czy response listy sa opakowane w *ListResponse z paginacja (total, page, limit)
+- Czy referencje w DTO uzywaja Model(type: ...) nie OA\Schema/string ref
+- Czy FE pobiera enumy z API zamiast hardcodowac
+- Czy nawigacja FE jest warunkowa wg rol
+
+Jesli kod nie spelnia standardow — cofnij task do In Progress z komentarzem wskazujacym konkretne naruszenia.
 
 ## Zakazane operacje
 

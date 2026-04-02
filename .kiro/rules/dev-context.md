@@ -8,49 +8,7 @@
 
 ## Standardy kodowania
 
-### Kontrolery
-- Dziedzicz po `DefaultController`
-- Używaj `$this->response($dto)` zamiast `$this->json()`
-- Wszystkie response muszą używać DTO implementujących `ResponseDtoInterface`
-- DTO muszą być `readonly class` z atrybutem `#[OA\Schema]`
-- Właściwości DTO muszą mieć atrybuty `#[OA\Property]` dla dokumentacji OpenAPI
-- Dodawaj `description` w atrybutach `#[OA\Get]`, `#[OA\Post]` etc.
-- Używaj `new Model(type: XxxResponse::class)` w `#[OA\Response]`
-
-### Przykład poprawnego kontrolera
-```php
-#[Route('/resource', name: 'resource_list', methods: ['GET'])]
-#[OA\Get(
-    path: '/api/resource',
-    summary: 'List resources',
-    description: 'Returns all resources'
-)]
-#[OA\Response(
-    response: 200,
-    description: 'Resources list',
-    content: new Model(type: ResourceResponse::class)
-)]
-#[OA\Tag(name: 'Resource')]
-public function list(): JsonResponse
-{
-    $data = $this->repository->findAll();
-    return $this->response(new ResourceResponse($data));
-}
-```
-
-### DTO Response
-```php
-#[OA\Schema(schema: 'ResourceResponse')]
-readonly class ResourceResponse implements ResponseDtoInterface
-{
-    public function __construct(
-        #[OA\Property(example: 1)]
-        public int $id,
-        #[OA\Property(example: 'Name')]
-        public string $name
-    ) {}
-}
-```
+⚠️ Obowiazuja standardy z `coding-standards.md` — DEV MUSI je stosowac przy kazdej implementacji.
 
 ## Workflow DEV
 

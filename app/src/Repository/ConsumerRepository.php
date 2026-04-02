@@ -35,4 +35,27 @@ class ConsumerRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return Consumer[]
+     */
+    public function findAllAdmin(int $page = 1, int $limit = 20): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.deletedAt IS NULL')
+            ->orderBy('c.createdAt', 'DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countAllAdmin(): int
+    {
+        return (int) $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->where('c.deletedAt IS NULL')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
