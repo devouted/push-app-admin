@@ -52,6 +52,7 @@ readonly class ExceptionListener
             401 => 'unauthorized',
             403 => 'forbidden',
             404 => 'not_found',
+            409 => 'conflict',
             422 => 'validation_error',
             500 => 'internal_server_error',
             default => 'error'

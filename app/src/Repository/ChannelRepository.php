@@ -86,4 +86,35 @@ class ChannelRepository extends ServiceEntityRepository
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
+
+    /**
+     * @return Channel[]
+     */
+    public function findAllAdmin(?string $status = null, int $page = 1, int $limit = 20): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.deletedAt IS NULL')
+            ->orderBy('c.createdAt', 'DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        if ($status !== null) {
+            $qb->andWhere('c.status = :status')->setParameter('status', $status);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countAllAdmin(?string $status = null): int
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->andWhere('c.deletedAt IS NULL');
+
+        if ($status !== null) {
+            $qb->andWhere('c.status = :status')->setParameter('status', $status);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
 }

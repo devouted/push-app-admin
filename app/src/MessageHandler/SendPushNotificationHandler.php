@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler;
 
+use App\Enum\ChannelStatus;
 use App\Message\SendPushNotification;
 use App\Repository\ConsumerRepository;
 use App\Repository\NotificationRepository;
@@ -26,6 +27,15 @@ class SendPushNotificationHandler
         $notification = $this->notificationRepository->find($message->notificationId);
         if (!$notification) {
             $this->logger->error('Notification not found for push', ['id' => $message->notificationId]);
+            return;
+        }
+
+        $channel = $notification->getChannel();
+        if ($channel->getStatus() !== ChannelStatus::ACTIVE) {
+            $this->logger->warning('Skipping push for non-active channel', [
+                'channel_id' => (string) $channel->getId(),
+                'status' => $channel->getStatus()->value,
+            ]);
             return;
         }
 
