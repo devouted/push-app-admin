@@ -19,10 +19,14 @@
 
 ## Kontenery Docker
 
-- `apache` - Apache + PHP 8.4 (Symfony API)
-- `frontend` - Node.js 20 + Vite (React)
-- `mysql` - MariaDB 11
-- `redis` - Redis Alpine
+Nazwy kontenerow generowane automatycznie przez Docker Compose na podstawie katalogu projektu:
+
+- `push-app-admin-apache-1` - Apache + PHP 8.4 (Symfony API) — **kontener PHP**
+- `push-app-admin-frontend-1` - Node.js 20 + Vite (React)
+- `push-app-admin-mysql-1` - MariaDB 11
+- `push-app-admin-redis-1` - Redis Alpine
+
+⚠️ NIGDY nie uzywaj starych nazw (`symfony-sceleton-apache-1`, `symfony_php`). Zawsze uzywaj nazw powyzej.
 
 ## Struktura katalogów
 
@@ -37,7 +41,36 @@
 ## Uruchamianie testów
 
 bash
-docker exec symfony-sceleton-apache-1 php bin/phpunit tests/
+docker exec push-app-admin-apache-1 php bin/phpunit tests/
+
+## Trackery (tracker_id)
+
+- 7 = Epic
+- 8 = Story
+- 9 = Task
+- 10 = Bug
+- 11 = Spike
+
+## Statusy (status_id)
+
+- 7 = Backlog
+- 8 = In Progress
+- 9 = Code Review
+- 10 = QA
+- 11 = Done
+
+## Priorytety (priority_id)
+
+- 3 = Niski
+- 4 = Normalny
+- 5 = Wysoki
+- 6 = Pilny
+- 7 = Natychmiastowy
+
+## Pola niestandardowe (custom_fields)
+
+- 8 = Zużyte tokeny (integer) — łączna liczba zużytych tokenów AI
+- 9 = Czas pracy (s) (integer) — łączny czas pracy w sekundach
 
 ## Dane dostępowe
 

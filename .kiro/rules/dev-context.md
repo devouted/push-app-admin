@@ -54,10 +54,27 @@ readonly class ResourceResponse implements ResponseDtoInterface
 
 ## Workflow DEV
 
+### ⚠️ KRYTYCZNE: Sprawdź niedokończoną pracę PRZED podjęciem nowego zadania
+
+**ZAWSZE przed szukaniem nowych zadań wykonaj te kroki w podanej kolejności:**
+
+1. **Sprawdź zadania In Progress (status_id=8)** przypisane do Ciebie (`assigned_to_id=me`)
+   - Jeśli istnieją → kontynuuj pracę nad nimi (NIE bierz nowych)
+2. **Sprawdź zadania cofnięte z QA (status_id=8, z komentarzem QA)**
+   - Jeśli istnieją → napraw je priorytetowo
+3. **Sprawdź Epici In Progress** — wyszukaj Epici ze statusem In Progress (status_id=8) w projekcie
+   - Jeśli Epic jest In Progress, sprawdź czy ma taski w Backlogu (status_id=7)
+   - Taski z niedokończonego Epica mają WYŻSZY priorytet niż taski z nowych Epiców
+4. **Dopiero gdy nie ma żadnych niedokończonych zadań** → szukaj nowych tasków w Backlogu
+
+❌ NIGDY nie podejmuj nowego zadania z innego Epica jeśli bieżący Epic ma jeszcze taski w Backlogu
+
 ### Pobierz listę zadań
-- Użyj `redmineDeveloperAgent___redmine_search_issues` z `status_id=7` (Backlog)
-- Sortuj: `priority:desc,id:asc`
-- Weź zadanie z najwyższym priorytetem i najniższym ID
+- **NAJPIERW** wykonaj procedurę "Sprawdź niedokończoną pracę" (powyżej)
+- Dopiero gdy nie ma niedokończonych zadań:
+  - Użyj `redmineDeveloperAgent___redmine_search_issues` z `status_id=7` (Backlog)
+  - Sortuj: `priority:desc,id:asc`
+  - Weź zadanie z najwyższym priorytetem i najniższym ID
 
 ### Podejmij zadanie
 - **PRZED** podjęciem zadania:
@@ -116,6 +133,52 @@ readonly class ResourceResponse implements ResponseDtoInterface
 - ❌ Zmiana priorytetów - to rola PM
 - ❌ Modyfikacja Acceptance Criteria - to rola PM
 - ❌ Przypisywanie zadań innym osobom
+
+## Testy
+
+- Jeśli zadanie ma w Acceptance Criteria wzmiankę o testach → MUSISZ napisać testy
+- Jeśli zadanie NIE ma wzmianki o testach → NIE dodawaj testów automatycznie
+- Jeśli masz wątpliwości → dodaj komentarz do zadania z pytaniem
+
+## ⚠️ KRYTYCZNE: Wzorzec bezpiecznych operacji API
+
+Nigdy nie lacze wielu pol w jednym wywolaniu `redmine_update_issue` — rozbijaj na osobne kroki:
+
+### Wzorzec dla Taskow (tracker_id=9)
+```
+1. redmine_update_issue(issue_id, status_id=8)                            # zmiana statusu
+2. redmine_update_issue(issue_id, assigned_to_id=29, custom_fields=[...]) # przypisanie + cf (aktualne wartosci BEZ ZMIAN)
+3. ... wykonaj prace ...
+4. redmine_update_issue(issue_id, status_id=9)                            # zmiana statusu na Code Review
+5. redmine_update_issue(issue_id, notes="opis zmian", custom_fields=[...])# komentarz (cf BEZ ZMIAN, bez emoji!)
+6. [STOP] Zapytaj uzytkownika o Credits/Time, poczekaj na odpowiedz
+7. redmine_update_issue(issue_id, custom_fields=[...])                    # JEDYNY moment zmiany cf — wpisz zuzycie
+```
+
+### Wzorzec dla Epicow (tracker_id=7)
+```
+1. redmine_update_issue(issue_id, status_id=8)  # jedyna dzialajaca operacja z konta DEV
+```
+- ❌ Notes na Epicach — 500
+- ❌ Custom_fields na Epicach — 500
+- ❌ Jakiekolwiek kombinacje poza samym status_id — 500
+
+### Zakaz w notes
+- ❌ Emoji (checkmark, rakieta itp.) — powoduja 500
+- ❌ Sekwencje `\n` (literalny backslash+n) — powoduja 500
+- ✅ Tylko czysty ASCII (polskie znaki bez diakrytykow, myslniki, kropki)
+
+## Raportowanie zużycia (RAZ, po zakończeniu wszystkich taskow)
+
+⚠️ **KRYTYCZNE:** Wszystkie uzycia custom_fields W TRAKCIE pracy przekazuja aktualne wartosci BEZ ZMIAN.
+
+Workflow:
+1. Przy podjeciu taska — zanotuj timestamp startu
+2. Przy zakonczeniu taska (Code Review) — zanotuj timestamp, oblicz czas pracy w sekundach
+3. Kontynuuj kolejne taski w Epicu
+4. Po zakonczeniu WSZYSTKICH taskow — [STOP], podaj zmierzone czasy i zapytaj o Credits/Time
+5. Po otrzymaniu wartosci — rozdziel proporcjonalnie wg zasad z common.md
+6. Zaktualizuj custom_fields w kazdym tasku
 
 ## Odpowiedzialność DEV
 

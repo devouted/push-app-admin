@@ -9,7 +9,7 @@ use OpenApi\Attributes as OA;
 readonly class RolesResponse implements ResponseDtoInterface
 {
     public function __construct(
-        #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), example: ['ROLE_USER', 'ROLE_ADMIN'])]
+        #[OA\Property(type: 'array', items: new OA\Items(type: 'string'), example: ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_CLIENT'])]
         public array $roles
     ) {}
 }

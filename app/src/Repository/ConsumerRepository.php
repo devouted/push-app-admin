@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\Consumer;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+
+class ConsumerRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Consumer::class);
+    }
+
+    public function findByExpoToken(string $expoToken): ?Consumer
+    {
+        return $this->findOneBy(['expoToken' => $expoToken]);
+    }
+
+    /**
+     * @param string[] $tokens
+     * @return Consumer[]
+     */
+    public function findByExpoTokens(array $tokens): array
+    {
+        if (empty($tokens)) {
+            return [];
+        }
+
+        return $this->createQueryBuilder('c')
+            ->where('c.expoToken IN (:tokens)')
+            ->andWhere('c.deletedAt IS NULL')
+            ->setParameter('tokens', $tokens)
+            ->getQuery()
+            ->getResult();
+    }
+}
